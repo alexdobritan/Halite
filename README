@@ -1,0 +1,87 @@
+MyBot
+Aceasta este clasa principală a botului de joc. Funcționalitatea sa principală include:
+
+Inițializare:
+Recuperează datele inițiale ale jocului, inclusiv ID-ul jucătorului și harta jocului.
+Trimite un mesaj inițial serverului cu numele botului.
+
+Bucla Principală a Jocului:
+Actualizează harta jocului cu datele recente din cadrul curent.
+Actualizează resursele și datele despre inamici pentru cadrul curent utilizând ResourceManager.
+Determină mișcările pentru fiecare locație deținută de jucătorul curent. Pentru fiecare locație:
+Verifică dacă locația este deținută de jucătorul curent.
+Dacă locația ar trebui să se miște, determină direcția optimă de mișcare utilizând ResourceManager.
+Adaugă mișcarea determinată în lista de mișcări.
+Trimite lista de mișcări către server.
+
+ResourceManager
+Aceasta este clasa responsabilă pentru gestionarea resurselor și mișcărilor unităților jucătorului. Funcționalitatea sa include:
+
+Constructor:
+Inițializează ResourceManager cu harta jocului.
+Creează structuri de date pentru a gestiona teritoriile și inamicii (mapă pentru teritorii și listă pentru inamici).
+
+Metoda updateResources:
+Actualizează informațiile despre resurse și inamici pentru cadrul curent al jocului.
+Golește datele anterioare despre teritorii și inamici.
+Recalculează teritoriile pentru fiecare jucător iterând prin fiecare locație de pe hartă.
+Găsește inamicii din jurul teritoriilor jucătorului curent în funcție de o distanță specificată.
+
+Metoda findEnemies:
+Găsește inamicii din jurul unei locații date într-o anumită distanță.
+Adaugă sau actualizează inamicii găsiți în lista de inamici.
+
+Metoda shouldMove:
+Determină dacă o unitate ar trebui să se miște pe baza puterii și producției sale.
+Utilizează o valoare de prag (omega) calculată pe baza dimensiunii hărții.
+
+Metoda getBestMoveDirection:
+Determină direcția optimă de mișcare pentru o locație dată.
+Obține vecinii locației care nu sunt deținuți de jucătorul curent.
+Dacă nu există vecini, caută o bordură pentru expansiune.
+Dacă există inamici, se mișcă către inamic.
+Altfel, se mișcă către vecinul optim.
+
+Metoda getNeighbors:
+Obține o listă de locații vecine care nu sunt deținute de jucătorul curent.
+
+Metoda getOptimalDirection:
+Obține direcția optimă de mișcare către un vecin din lista de vecini.
+Sortează vecinii utilizând un comparator euristic și alege vecinul cel mai bun.
+
+Metoda lookForBorder:
+Caută cea mai bună bordură pentru expansiune în funcție de o distanță maximă specificată.
+Sortează vecinii neutri și inamici în funcție de euristică și alege direcția optimă.
+
+Metoda getBestEnemyDirection:
+Obține cea mai bună direcție către un inamic pe baza calculelor euristice.
+
+Metoda calculateEnemyHeuristic:
+Calculează valoarea euristică pentru deplasarea către un inamic specific.
+Utilizează date despre teritoriul și puterea inamicului, precum și distanța până la locația inamicului.
+
+Metoda lookForEnemy:
+Caută cel mai bun inamic de atacat din jurul locației curente.
+Determină direcția optimă pe baza potențialului de daune pe care le-ar putea cauza.
+
+Territory
+Aceasta este o clasă simplă care reprezintă teritoriul unui jucător. Funcționalitatea sa include:
+Stocarea ID-ului jucătorului și numărului de teritorii deținute.
+Metoda pentru incrementarea numărului de teritorii.
+
+Enemy
+Aceasta este o clasă care reprezintă jucătorii inamici. Funcționalitatea sa include:
+Stocarea ID-ului inamicului, bordurii și puterii sale, și centrul locației.
+Metode pentru a adăuga putere și a incrementa bordura.
+
+Neighbor
+Aceasta este o clasă care reprezintă locațiile vecine. Funcționalitatea sa include:
+Stocarea hărții jocului, locației vecine, direcției și centrului locației.
+Este utilizată pentru a determina mișcările optime.
+
+HeuristicThreeComparator
+Aceasta este o clasă comparator care sortează vecinii pe baza valorii euristice calculate. Funcționalitatea sa include:
+Compararea a doi vecini pe baza valorii euristice.
+Metoda pentru calcularea valorii euristice utilizând producția, distanța și puterea vecinului.
+
+Inspiratie: https://github.com/Baietii-Rai/PA-Proiect-Halite.git
